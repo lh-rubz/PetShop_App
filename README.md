@@ -21,15 +21,20 @@ I made shopping for your pet as easy as taking a nap on a sunny day. Just add yo
 ## 📸 **Screenshots**
 
 ### **Login & Authentication**  
-<img src="https://github.com/user-attachments/assets/1919d9b0-202e-4211-88fe-edd6321ace34"  width="200" height="400" />
-<img src="https://github.com/user-attachments/assets/cad78d66-f16d-4b3b-b0c2-9715559011e0"  width="200" height="400" />
 
-### **Main Features**  
-<img src="https://github.com/user-attachments/assets/97eb9763-0314-4621-8e02-517beb8ce5bf"  width="200" height="400" />
-<img src="https://github.com/user-attachments/assets/7d5d36a5-52ba-4fde-9812-7d202014e82c"  width="200" height="400" />
-<img src="https://github.com/user-attachments/assets/073ca3f9-526f-419d-9932-edb23c8bbb00"  width="200" height="400" />
-<img src="https://github.com/user-attachments/assets/a7c62bee-f77a-420f-bf42-c572976ccbec"  width="200" height="400" />
-<img src="https://github.com/user-attachments/assets/06e88c10-2a50-4876-9af4-3c7d61285a09"  width="200" height="400" />
+
+<img src="https://github.com/user-attachments/assets/50808667-dc89-4318-a4f2-988ef396f0fb"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/67b1baa6-4aaf-4aac-bf73-d845f3b7b990"  width="200" height="400" />
+
+### **Main Features** 
+<img src="https://github.com/user-attachments/assets/b5885754-2965-400b-b5ba-8fce6f1fbd56"  width="200" height="400" />
+
+<img src="https://github.com/user-attachments/assets/41e4680e-d4ad-49f5-a762-b2ad6dae2168"  width="200" height="400" />
+
+<img src="https://github.com/user-attachments/assets/634dd3b2-6522-4279-9bfe-38144394ffa3"  width="200" height="400" />
+
+<img src="https://github.com/user-attachments/assets/2ddecd65-e160-41d1-9059-660ca733a732"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/40a8d0eb-bdca-40f0-9192-132227d5af5d"  width="200" height="400" />
 
 ## 🛠️ **Technical Details**
 
@@ -60,7 +65,7 @@ Got an idea to make this app even *paw*some? Here’s how you can help:
 1. **Fork it**  
 2. **Code your feature**   
 3. **Submit a PR** 
-
+---
 ⭐ **Star the repo** if you think it’s pawsitively amazing – it’s like a belly rub for the app! 🐾💫
 
 ![PleasePleasePleaseGIF](https://github.com/user-attachments/assets/149d29b6-5bf7-439a-a338-8d3dc5e4a341)
