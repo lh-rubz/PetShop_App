@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="$24.99"
-        android:textColor="#6200EE"
+        android:textColor="@color/teal_dark"
         android:textSize="14sp"/>
 
     <Button
