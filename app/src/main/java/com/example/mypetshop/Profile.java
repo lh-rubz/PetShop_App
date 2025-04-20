@@ -17,56 +17,47 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.mypetshop.utils.SharedPrefManager;
 
 public class Profile extends BaseActivity {
-    private EditText etName,etAddress,etpassword;
-    private Button btnSaveChanges,btnLogout;
     private SharedPrefManager sharedPrefManager;
 
     @Override
     protected int getCurrentNavItem() {
         return R.id.btn_profile;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
         setupMenu();
+
         sharedPrefManager = new SharedPrefManager(this);
-        etName=findViewById(R.id.et_name);
-        etAddress=findViewById(R.id.et_address);
-        btnSaveChanges=findViewById(R.id.btn_save_changes);
-        btnLogout=findViewById(R.id.btn_logout);
-        String email = sharedPrefManager.getUserEmail();
-        String address = sharedPrefManager.getUserAddress();
-        etName.setText(email != null ? email : "");
-        etAddress.setText(address != null ? address : "");
-        btnSaveChanges.setOnClickListener(v->{
-            saveChanges();
+        EditText etEmail = findViewById(R.id.et_name);
+        EditText etAddress = findViewById(R.id.et_address);
+
+        // Load user data
+        etEmail.setText(sharedPrefManager.getUserEmail());
+        etAddress.setText(sharedPrefManager.getUserAddress());
+
+        // Save Changes Button
+        findViewById(R.id.btn_save_changes).setOnClickListener(v -> {
+            String newEmail = etEmail.getText().toString().trim();
+            String newAddress = etAddress.getText().toString().trim();
+
+            if (newEmail.isEmpty() || newAddress.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sharedPrefManager.updateUserDetails(newEmail, null, newAddress);
+            Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show();
         });
-        btnLogout.setOnClickListener(v-> logout());
 
-
-
+        // Logout Button
+        findViewById(R.id.btn_logout).setOnClickListener(v -> {
+            sharedPrefManager.logout();
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
+        });
     }
-
-    private void logout() {
-        sharedPrefManager.logout();
-        startActivity(new Intent(this, MainActivity.class));
-        Toast.makeText(this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
-    }
-
-    private void saveChanges() {
-        String name= etName.getText().toString().trim();
-        String address= etAddress.getText().toString().trim();
-        if(name.isEmpty()||address.isEmpty()){
-
-            Toast.makeText(this, "Name and Address are Required!", Toast.LENGTH_SHORT).show();
-
-        }else{
-            sharedPrefManager.updateUserDetails(name,null,address);
-            Toast.makeText(this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
 }

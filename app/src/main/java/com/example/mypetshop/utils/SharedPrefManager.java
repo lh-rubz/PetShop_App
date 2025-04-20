@@ -32,15 +32,15 @@ public class SharedPrefManager {
         initializeSampleProducts(context);
     }
 
-    // Save user login details and address
     public void saveUser(String email, String password, String address) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_PASSWORD, password);
         editor.putString(KEY_ADDRESS, address);
-        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putBoolean(KEY_IS_LOGGED_IN, true); // User is logged in after registration
         editor.apply();
     }
+
 
     // Get saved user email
 
@@ -77,6 +77,11 @@ public class SharedPrefManager {
             }
         }
         saveProducts(products);
+    }
+    public void setLoggedIn(boolean isLoggedIn) {
+        sharedPreferences.edit()
+                .putBoolean(KEY_IS_LOGGED_IN, isLoggedIn)
+                .apply();
     }
     public void addToCart(Product product, int quantity) {
         List<Product> cartProducts = getCartProducts();
@@ -272,7 +277,7 @@ public class SharedPrefManager {
                     "Perfect environment for your reptile pet", "Reptiles", "$35.99",
                     R.drawable.reptile_habitats, 3));
 
-            // Save the products in shared preferences or database
+
             saveProducts(sampleProducts);
         }
     }
@@ -310,16 +315,10 @@ public class SharedPrefManager {
 
     // Log out the user
     public void logout() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        // Only clear user-specific data
-        editor.remove(KEY_EMAIL);
-        editor.remove(KEY_PASSWORD);
-        editor.remove(KEY_ADDRESS);
-        editor.remove(KEY_IS_LOGGED_IN);
-        editor.apply();
+        setLoggedIn(false);
     }
 
-    // Update user details (email, password, and address)
+
     public void updateUserDetails(String email, String password, String address) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (email != null) {
@@ -359,7 +358,6 @@ public class SharedPrefManager {
         return true;
     }
 
-    // Check if user exists and credentials match
     public boolean validateUser(String email, String password) {
         String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
         String savedPassword = sharedPreferences.getString(KEY_PASSWORD, null);
