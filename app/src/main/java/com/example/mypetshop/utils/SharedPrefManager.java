@@ -311,7 +311,11 @@ public class SharedPrefManager {
     // Log out the user
     public void logout() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        // Only clear user-specific data
+        editor.remove(KEY_EMAIL);
+        editor.remove(KEY_PASSWORD);
+        editor.remove(KEY_ADDRESS);
+        editor.remove(KEY_IS_LOGGED_IN);
         editor.apply();
     }
 
@@ -353,5 +357,18 @@ public class SharedPrefManager {
 
         clearCart();
         return true;
+    }
+
+    // Check if user exists and credentials match
+    public boolean validateUser(String email, String password) {
+        String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
+        String savedPassword = sharedPreferences.getString(KEY_PASSWORD, null);
+        return email.equals(savedEmail) && password.equals(savedPassword);
+    }
+
+    // Check if user already exists
+    public boolean userExists(String email) {
+        String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
+        return email.equals(savedEmail);
     }
 }

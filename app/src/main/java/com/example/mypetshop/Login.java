@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mypetshop.MainActivity;
 import com.example.mypetshop.R;
+import com.example.mypetshop.Signup;
 import com.example.mypetshop.utils.SharedPrefManager;
 
 public class Login extends AppCompatActivity {
@@ -37,6 +38,11 @@ public class Login extends AppCompatActivity {
             navigateToMainActivity();
         }
 
+        // Set up signup button click listener
+        findViewById(R.id.btnSignUp).setOnClickListener(v -> {
+            startActivity(new Intent(Login.this, Signup.class));
+        });
+
         // Login Button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +56,15 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                // Assuming successful login, save the data
-                sharedPrefManager.saveUser(email, password,"Ramallah");
-
-                // Show success message
-                Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-
-                // Navigate to Main Activity after successful login
-                navigateToMainActivity();
+                // Validate user credentials
+                if (sharedPrefManager.validateUser(email, password)) {
+                    // Show success message
+                    Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                    // Navigate to Main Activity after successful login
+                    navigateToMainActivity();
+                } else {
+                    Toast.makeText(Login.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -33,8 +33,17 @@ public class Signup extends AppCompatActivity {
             String confirmPassword = etConfirmPassword.getText().toString();
 
             if (validateInput(name, email, password, confirmPassword)) {
+                // Check if user already exists
+                if (sharedPrefManager.userExists(email)) {
+                    Toast.makeText(Signup.this, "Email already registered", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // Save user data
-                sharedPrefManager.saveUser(email, password,"Ramallah");
+                sharedPrefManager.saveUser(email, password, "Ramallah");
+
+                // Show success message
+                Toast.makeText(Signup.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
 
                 // Navigate to the login screen
                 startActivity(new Intent(Signup.this, Login.class));
