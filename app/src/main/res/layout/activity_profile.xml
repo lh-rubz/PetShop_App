@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:padding="24dp"
-        android:background="#FAFAFA">
+        android:background="@color/background">
         <ImageView
             android:id="@+id/iv_profile_image"
             android:layout_width="120dp"

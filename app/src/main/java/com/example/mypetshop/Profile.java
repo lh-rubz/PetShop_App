@@ -31,12 +31,15 @@ public class Profile extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
         setupMenu();
+        sharedPrefManager = new SharedPrefManager(this);
         etName=findViewById(R.id.et_name);
         etAddress=findViewById(R.id.et_address);
         btnSaveChanges=findViewById(R.id.btn_save_changes);
         btnLogout=findViewById(R.id.btn_logout);
-        etName.setText(sharedPrefManager.getUserEmail());
-        etAddress.setText(sharedPrefManager.getUserAddress());
+        String email = sharedPrefManager.getUserEmail();
+        String address = sharedPrefManager.getUserAddress();
+        etName.setText(email != null ? email : "");
+        etAddress.setText(address != null ? address : "");
         btnSaveChanges.setOnClickListener(v->{
             saveChanges();
         });
@@ -48,6 +51,7 @@ public class Profile extends BaseActivity {
 
     private void logout() {
         sharedPrefManager.logout();
+        startActivity(new Intent(this, MainActivity.class));
         Toast.makeText(this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
     }
 
