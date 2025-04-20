@@ -20,4 +20,5 @@
     <color name="yellow_accent">#FFE082</color>
     <color name="teal_light">#4DD0E1</color>
     <color name="teal_dark">#00838F</color>
+    <color name="red">#CA3232</color>
 </resources>

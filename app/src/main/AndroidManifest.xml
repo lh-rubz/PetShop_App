@@ -13,10 +13,16 @@
         android:theme="@style/Theme.MyPetShop"
         tools:targetApi="31">
         <activity
-            android:name=".Cart"
+            android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".Search"
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
             android:exported="false" />
         <activity
             android:name=".Profile"

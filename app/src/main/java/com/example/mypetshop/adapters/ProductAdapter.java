@@ -1,5 +1,7 @@
 package com.example.mypetshop.adapters;
 
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +49,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
 
         // Set product data
-        holder.ivProductImage.setImageResource(product.getImageRes());
-        holder.tvProductName.setText(product.getName());
+        // Set product data with error handling for image
+        try {
+            holder.ivProductImage.setImageResource(product.getImageRes());
+        } catch (Resources.NotFoundException e) {
+            // Fallback to a default placeholder image
+            holder.ivProductImage.setImageResource(R.drawable.ic_baseline_image_24);
+            Log.e("ProductAdapter", "Image not found for product: " + product.getName());
+        } holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(product.getPrice());
 //        holder.tvStockQuantity.setText("In Stock: " + product.getStockQuantity());
 

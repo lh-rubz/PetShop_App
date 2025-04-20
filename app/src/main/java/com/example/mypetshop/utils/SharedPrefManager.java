@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.mypetshop.R;
+import com.example.mypetshop.models.CartItem;
 import com.example.mypetshop.models.Product;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,15 +19,17 @@ public class SharedPrefManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_ADDRESS = "address";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_CART_ITEMS = "cart_items";
+    private static final String KEY_CART_QUANTITIES = "cart_quantities";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
-private static final String KEY_PRODUCTS="products";
+    private static final String KEY_PRODUCTS="products";
 
     private SharedPreferences sharedPreferences;
-private Gson gson;
+    private Gson gson;
     public SharedPrefManager(Context context) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-   gson= new Gson();
-   initializeSampleProducts(context);
+        gson= new Gson();
+        initializeSampleProducts(context);
     }
 
     // Save user login details and address
@@ -74,6 +77,134 @@ private Gson gson;
             }
         }
         saveProducts(products);
+    }
+    public void addToCart(Product product, int quantity) {
+        List<Product> cartProducts = getCartProducts();
+        List<Integer> quantities = getCartQuantities();
+
+        // Check if product already exists in cart
+        for (int i = 0; i < cartProducts.size(); i++) {
+            if (cartProducts.get(i).getId().equals(product.getId())) {
+                // Update quantity if product exists
+                quantities.set(i, quantities.get(i) + quantity);
+                saveCart(cartProducts, quantities);
+                return;
+            }
+        }
+
+        // Add new product to cart
+        cartProducts.add(product);
+        quantities.add(quantity);
+        saveCart(cartProducts, quantities);
+    }
+    public void removeFromCart(String productId) {
+        List<Product> cartProducts = getCartProducts();
+        List<Integer> quantities = getCartQuantities();
+
+        for (int i = 0; i < cartProducts.size(); i++) {
+            if (cartProducts.get(i).getId().equals(productId)) {
+                cartProducts.remove(i);
+                quantities.remove(i);
+                saveCart(cartProducts, quantities);
+                return;
+            }
+        }
+    }
+    public void updateCartItemQuantity(String productId, int newQuantity) {
+        List<Product> cartProducts = getCartProducts();
+        List<Integer> quantities = getCartQuantities();
+
+        for (int i = 0; i < cartProducts.size(); i++) {
+            if (cartProducts.get(i).getId().equals(productId)) {
+                quantities.set(i, newQuantity);
+                saveCart(cartProducts, quantities);
+                return;
+            }
+        }
+    }
+    public List<Integer> getCartQuantities() {
+        String json = sharedPreferences.getString(KEY_CART_QUANTITIES, null);
+        if (json == null) {
+            return new ArrayList<>();
+        }
+        Type type = new TypeToken<List<Integer>>(){}.getType();
+        return gson.fromJson(json, type);
+    }
+    public void clearCart() {
+        sharedPreferences.edit()
+                .remove(KEY_CART_ITEMS)
+                .remove(KEY_CART_QUANTITIES)
+                .apply();
+    }
+    public double getCartTotal() {
+        List<Product> cartProducts = getCartProducts();
+        List<Integer> quantities = getCartQuantities();
+        double total = 0.0;
+
+        for (int i = 0; i < cartProducts.size(); i++) {
+            Product product = cartProducts.get(i);
+            int quantity = quantities.get(i);
+
+            // Remove $ sign and parse to double
+            String priceStr = product.getPrice().replace("$", "");
+            double price = Double.parseDouble(priceStr);
+
+            total += price * quantity;
+        }
+
+        return total;
+    }
+    public List<CartItem> getCartItems() {
+        List<Product> products = getCartProducts();
+        List<Integer> quantities = getCartQuantities();
+        List<CartItem> cartItems = new ArrayList<>();
+
+        for (int i = 0; i < products.size(); i++) {
+            cartItems.add(new CartItem(products.get(i), quantities.get(i)));
+        }
+
+        return cartItems;
+    }
+    public boolean isProductInCart(String productId) {
+        for (Product product : getCartProducts()) {
+            if (product.getId().equals(productId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isProductAvailable(String productId, int requestedQuantity) {
+        Product product = getProductById(productId);
+        return product != null && product.getStockQuantity() >= requestedQuantity;
+    }
+    public int getProductQuantityInCart(String productId) {
+        List<Product> products = getCartProducts();
+        List<Integer> quantities = getCartQuantities();
+
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId().equals(productId)) {
+                return quantities.get(i);
+            }
+        }
+        return 0;
+    }
+
+    public int getCartItemCount() {
+        return getCartProducts().size();
+    }
+    private void saveCart(List<Product> products, List<Integer> quantities) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_CART_ITEMS, gson.toJson(products));
+        editor.putString(KEY_CART_QUANTITIES, gson.toJson(quantities));
+        editor.apply();
+    }
+    public List<Product> getCartProducts() {
+        String json = sharedPreferences.getString(KEY_CART_ITEMS, null);
+        if (json == null) {
+            return new ArrayList<>();
+        }
+        Type type = new TypeToken<List<Product>>(){}.getType();
+        return gson.fromJson(json, type);
     }
     public void removeProduct(String productId) {
         List<Product> products = getProducts();
@@ -197,5 +328,30 @@ private Gson gson;
             editor.putString(KEY_ADDRESS, address);
         }
         editor.apply();
+    }
+
+    public boolean checkout() {
+        List<CartItem> cartItems = getCartItems();
+        List<Product> allProducts = getProducts();
+
+        // First verify all items are available
+        for (CartItem item : cartItems) {
+            Product product = getProductById(item.getProduct().getId());
+            if (product == null || product.getStockQuantity() < item.getQuantity()) {
+                return false; // Not enough stock
+            }
+        }
+
+        // Update stock quantities
+        for (CartItem item : cartItems) {
+            Product product = getProductById(item.getProduct().getId());
+            if (product != null) {
+                product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
+                updateProduct(product);
+            }
+        }
+
+        clearCart();
+        return true;
     }
 }

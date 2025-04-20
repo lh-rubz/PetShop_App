@@ -1,10 +1,8 @@
 package com.example.mypetshop;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getCurrentNavItem(); // Each activity will implement this
@@ -25,13 +23,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         btnSearch.setOnClickListener(v -> {
             if (getCurrentNavItem() != R.id.btn_search) {
-                startActivity(new Intent(this, Search.class));
+                startActivity(new Intent(this, SearchActivity.class));
             }
         });
 
         btnCart.setOnClickListener(v -> {
             if (getCurrentNavItem() != R.id.btn_cart) {
-                startActivity(new Intent(this, Cart.class));
+                startActivity(new Intent(this, CartActivity.class));
             }
         });
 
