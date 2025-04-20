@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MenuButtonStyle">
+>
+        <item name="android:drawableTint">@color/primary_dark</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

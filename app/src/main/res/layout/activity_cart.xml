@@ -4,15 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="This is the Home Page"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="24sp" />
-<!--bottom menu-->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -23,17 +15,18 @@
         android:paddingBottom="8dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:gravity="center">
+        android:gravity="center"
+       >
 
-        <ImageButton
+    <ImageButton
             android:id="@+id/btn_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_home"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Home"
-            app:tint="@color/nav_icon_active" />
+            android:src="@drawable/ic_home"
+            />
 
 
         <ImageButton
@@ -41,27 +34,30 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_search"
             android:background="?attr/selectableItemBackgroundBorderless"
-
-            android:contentDescription="Categories"/>
+            android:contentDescription="Categories"
+            android:src="@drawable/ic_search" />
 
         <ImageButton
             android:id="@+id/btn_cart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_cart"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Cart"/>
+            android:contentDescription="Cart"
+            app:tint="@color/nav_icon_active"
+
+            android:src="@drawable/ic_cart" />
+
         <ImageButton
             android:id="@+id/btn_profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_settings"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Menu"/>
+            android:contentDescription="profile"
 
-        </LinearLayout>
+            android:src="@drawable/ic_settings" />
+
+    </LinearLayout>
 </LinearLayout>

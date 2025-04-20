@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base Colors -->
     <color name="primary">#E8F5F3</color>
     <color name="primary_dark">#98e2e2</color>
     <color name="accent">#00acaf</color>
@@ -10,4 +11,13 @@
     <color name="background">#f9f9fb</color>
     <color name="card_background">#FFFFFF</color>
 
+    <!-- Navigation Bar Colors -->
+    <color name="nav_background">#00acaf</color>
+    <color name="nav_icon_active">#FFE082</color>
+    <color name="nav_icon_inactive">#B3FFFFFF</color>
+
+    <!-- Additional Colors -->
+    <color name="yellow_accent">#FFE082</color>
+    <color name="teal_light">#4DD0E1</color>
+    <color name="teal_dark">#00838F</color>
 </resources>
